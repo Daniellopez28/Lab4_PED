@@ -1,81 +1,57 @@
 #include <iostream>
 using namespace std;
 
-
-struct Nodo {
+struct Nodo
+{
     int id;
     string nombre;
     float peso;
-    Nodo* siguiente;
-    Nodo* anterior;
+    Nodo *siguiente;
+    Nodo *anterior;
 };
 
+// Indicacion 2:
+Nodo *cabeza = NULL;
+Nodo *cola = NULL;
 
-Nodo* cabeza = NULL;
-Nodo* cola = NULL;
+// Funciones:
 
+bool insertarOrdenado(Nodo *&cabeza, Nodo *&cola, int id, string nombre, float peso) // Punto extra, literal A:
+{
 
-bool insertarOrdenado(Nodo*& cabeza, Nodo*& cola, int id, string nombre, float peso) {
-
-    
-    Nodo* aux = cabeza;
-    while (aux != NULL) {
+    Nodo *aux = cabeza;
+    while (aux != NULL)
+    {
         if (aux->id == id)
             return false;
         aux = aux->siguiente;
     }
-
-
-
-bool insertarOrdenado(Nodo*& cabeza, Nodo*& cola, int id, string nombre, float peso) {
-
-  
-    Nodo* aux = cabeza;
-    while (aux != NULL) {
-        if (aux->id == id)
-            return false; 
-        aux = aux->siguiente;
-    }
-
- 
-    Nodo* nuevo = new Nodo();
+    Nodo *nuevo = new Nodo();
     nuevo->id = id;
     nuevo->nombre = nombre;
     nuevo->peso = peso;
     nuevo->siguiente = NULL;
     nuevo->anterior = NULL;
 
-
-    
-    if (cabeza == NULL) {
+    if (cabeza == NULL)
+    {
         cabeza = cola = nuevo;
         return true;
     }
 
-   
-    if (id < cabeza->id) {
+    if (id < cabeza->id)
+    {
         nuevo->siguiente = cabeza;
         cabeza->anterior = nuevo;
         cabeza = nuevo;
         return true;
     }
 
-    if (cabeza == NULL) {
-       cabeza = cola = nuevo;
-        return true;
-    }
-
-    if (id < cabeza->id) {
-        nuevo->siguiente = cabeza;
-        cabeza->anterior = nuevo;
-       cabeza = nuevo;
-        return true;
-    }
-
-    
+    // Para insertar en medio o al final...
 
     aux = cabeza;
-    while (aux->siguiente != NULL && aux->siguiente->id < id) {
+    while (aux->siguiente != NULL && aux->siguiente->id < id)
+    {
         aux = aux->siguiente;
     }
 
@@ -85,48 +61,61 @@ bool insertarOrdenado(Nodo*& cabeza, Nodo*& cola, int id, string nombre, float p
     if (aux->siguiente != NULL)
         aux->siguiente->anterior = nuevo;
     else
-
+    {
         cola = nuevo;
-
-    aux->siguiente = nuevo;
-    return true;
+        aux->siguiente = nuevo;
+        return true;
+    }
 }
 
+// Para mostrar adelante, continuacion de funciones:
 
-void mostrarAdelante(Nodo* cabeza) {
-    if (cabeza == NULL) {
-        cout << "Lista vacia.\n";
+void mostrarAdelante(Nodo *cabeza)
+{
+    if (cabeza == NULL)
+    {
+        cout << "Lista vacia" << endl;
         return;
     }
-
-    Nodo* aux = cabeza;
-    while (aux != NULL) {
+    Nodo *aux = cabeza;
+    while (aux != NULL)
+    {
         cout << "ID: " << aux->id
-             << " | Nombre: " << aux->nombre
-             << " | Peso: " << aux->peso << endl;
+             << "  Nombre: " << aux->nombre
+             << "  Peso: " << aux->peso << endl;
         aux = aux->siguiente;
     }
 }
 
-
-void mostrarAtras(Nodo* cola) {
-    if (cola == NULL) {
-        cout << "Lista vacia.\n";
+void mostrarAtras(Nodo *cola)
+{
+    if (cola == NULL)
+    {
+        cout << "Lista vacia." << endl;
         return;
     }
 
-    Nodo* aux = cola;
-    while (aux != NULL) {
+    Nodo *aux = cola;
+    while (aux != NULL)
+    {
         cout << "ID: " << aux->id
-             << " | Nombre: " << aux->nombre
-             << " | Peso: " << aux->peso << endl;
+             << " Nombre: " << aux->nombre
+             << " Peso: " << aux->peso << endl;
         aux = aux->anterior;
     }
 }
 
-        cola= nuevo; 
+// Para buscar por el id
 
-    aux->siguiente= nuevo;
-    return true;
+bool buscar(Nodo *cabeza, int id)
+{
+    Nodo *aux = cabeza;
+    while (aux != NULL)
+    {
+        if (aux->id == id)
+            return true;
+        aux = aux->siguiente;
+    }
+    return false;
 }
 
