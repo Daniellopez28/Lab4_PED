@@ -119,3 +119,45 @@ bool buscar(Nodo *cabeza, int id)
     return false;
 }
 
+// funcion para eliminar por id
+
+bool eliminar(Nodo *&cabeza, Nodo *&cola, int id)
+{
+
+    if (cabeza == NULL)
+        return false;
+
+    Nodo *aux = cabeza;
+
+    while (aux != NULL)
+    {
+        if (aux->id == id)
+        {
+
+            // Caso 1: eliminar cabeza
+            if (aux == cabeza)
+            {
+                cabeza = cabeza->siguiente;
+                if (cabeza != NULL)
+                    cabeza->anterior = NULL;
+                else
+                    cola = NULL;
+            }
+            else if (aux == cola)
+            {
+                cola = cola->anterior;
+                cola->siguiente = NULL;
+            }
+            else
+            {
+                aux->anterior->siguiente = aux->siguiente;
+                aux->siguiente->anterior = aux->anterior;
+            }
+
+            delete aux;
+            return true;
+        }
+        aux = aux->siguiente;
+    }
+    return false;
+};
